@@ -10,7 +10,7 @@ require_once 'config.php'; // Asegúrate de que config.php esté incluido y func
 $is_logged_in = isset($_SESSION['user_id']);
 $logged_in_nombre = $is_logged_in ? htmlspecialchars($_SESSION['nombre'] ?? '') : '';
 $logged_in_apellido = $is_logged_in ? htmlspecialchars($_SESSION['apellido'] ?? '') : '';
-$logged_in_username_display = $is_logged_in ? htmlspecialchars($_SESSION['username'] ?? '') : ''; 
+$logged_in_username_display = $is_logged_in ? htmlspecialchars($_SESSION['username'] ?? '') : '';
 $user_rol = $is_logged_in ? htmlspecialchars($_SESSION['rol'] ?? '') : ''; // Usando 'rol' como en tu archivo
 
 // Puedes cambiar el título dinámicamente si es necesario en cada página que lo incluya.
@@ -20,7 +20,7 @@ $body_class = isset($body_class) ? $body_class : '';
 // --- LÓGICA PARA MOSTRAR LA ALERTA EN EL FRONTEND ---
 $current_alert = null;
 // Establece la zona horaria a la de tu ubicación
-date_default_timezone_set('America/Caracas'); 
+date_default_timezone_set('America/Caracas');
 $current_datetime = date('Y-m-d H:i:s');
 
 // Consulta para obtener la alerta activa y dentro del rango de fechas
@@ -84,13 +84,15 @@ if ($stmt_alert) {
                             <li><a href="assets/docs/6  COMPROMISO DE INSCRIPCION REPRESENTANTES.pdf" target="_blank">VI. COMPROMISO</a></li>
                         </ul>
                     </li>
-                    <li><a href="noticias.php">Noticias</a></li> <?php if ($is_logged_in && $user_rol === 'representante'): ?>
+                    <li><a href="noticias.php">Noticias</a></li>
+                    <?php if ($is_logged_in && $user_rol === 'representante'): ?>
                         <li class="has-submenu">
                             <a href="#" onclick="return false;">Admisión <i class="fas fa-caret-down arrow-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="solicitud_cupo.php">Crear Nueva Solicitud</a></li>
                                 <li><a href="mis_solicitudes.php">Ver Mis Solicitudes</a></li>
-                            </ul>
+                                <li><a href="manage_students.php">Mis Hijos/Estudiantes</a></li>
+                                </ul>
                         </li>
                     <?php else: ?>
                         <li><a href="solicitud_cupo.php">Solicitud de Cupo</a></li>
@@ -99,7 +101,7 @@ if ($stmt_alert) {
                     <li><a href="contacto.php">Contacto</a></li>
                 </ul>
             </nav>
-            
+
             <div class="header-auth">
                 <?php if ($is_logged_in): // Si el usuario ha iniciado sesión ?>
                     <div class="user-info-display">
@@ -145,7 +147,7 @@ if ($stmt_alert) {
             function showAlert() {
                 alertModal.style.display = 'flex';
                 // Añadir clase para deshabilitar scroll en el body si es necesario
-                document.body.classList.add('no-scroll'); 
+                document.body.classList.add('no-scroll');
             }
 
             // Función para ocultar la alerta y registrar que fue vista
