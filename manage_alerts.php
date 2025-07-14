@@ -27,21 +27,22 @@ $alert_types = ['info', 'success', 'warning', 'danger'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $alert_id = $_POST['alert_id'] ?? null;
-    $titulo = trim($_POST['titulo'] ?? ''); // Asegurarse de capturar el título
-    $contenido = $_POST['contenido'] ?? ''; // <--- CORRECCIÓN: Usar 'contenido'
+    $titulo = trim($_POST['titulo'] ?? '');
+    // Asegurarse de que el contenido del editor TinyMCE se capture correctamente.
+    // El 'name' del textarea es 'contenido', por lo que se accede vía $_POST['contenido'].
+    $contenido = $_POST['contenido'] ?? '';
     $alert_type = $_POST['alert_type'] ?? 'info';
     $start_date = $_POST['start_date'] ?? null;
     $end_date = $_POST['end_date'] ?? null;
     $is_active = isset($_POST['is_active']) ? 1 : 0;
 
-    // Validación básica
+    // Validación básica: El contenido y el tipo de alerta son obligatorios y válidos.
     if (empty($contenido) || !in_array($alert_type, $alert_types)) {
-        $message = 'El contenido y el tipo de alerta son obligatorios y válidos.';
-        $message_type = 'error';
+        $_SESSION['alert_message'] = 'El contenido y el tipo de alerta son obligatorios y válidos.';
+        $_SESSION['alert_message_type'] = 'error';
     } else {
         if ($action == 'create') {
-            // Se incluye el 'titulo' en el INSERT
-            // <--- CORRECCIÓN: Usar 'contenido' en la sentencia INSERT
+            // Se incluye 'titulo' y 'contenido' en la sentencia INSERT
             $stmt = $conn->prepare("INSERT INTO site_alerts (titulo, contenido, tipo, fecha_inicio, fecha_fin, activa) VALUES (?, ?, ?, ?, ?, ?)");
             if ($stmt) {
                 $stmt->bind_param("sssssi", $titulo, $contenido, $alert_type, $start_date, $end_date, $is_active);
@@ -58,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                 $_SESSION['alert_message_type'] = "error";
             }
         } elseif ($action == 'edit' && $alert_id) {
-            // Se incluye el 'titulo' en el UPDATE
-            // <--- CORRECCIÓN: Usar 'contenido' en la sentencia UPDATE
+            // Se incluye 'titulo' y 'contenido' en la sentencia UPDATE
             $stmt = $conn->prepare("UPDATE site_alerts SET titulo = ?, contenido = ?, tipo = ?, fecha_inicio = ?, fecha_fin = ?, activa = ? WHERE id = ?");
             if ($stmt) {
                 $stmt->bind_param("sssssii", $titulo, $contenido, $alert_type, $start_date, $end_date, $is_active, $alert_id);
@@ -101,7 +101,8 @@ if (isset($_GET['action'])) {
         } elseif ($action == 'toggle_active') {
             $current_active_status = filter_var($_GET['status'], FILTER_VALIDATE_BOOLEAN);
             $new_active_status = !$current_active_status;
-            $stmt = $conn->prepare("UPDATE site_alerts SET activa = ? WHERE id = ?"); // <--- CORRECCIÓN: Usar 'activa'
+            // Usar 'activa' para actualizar el estado
+            $stmt = $conn->prepare("UPDATE site_alerts SET activa = ? WHERE id = ?");
             if ($stmt && $stmt->bind_param("ii", $new_active_status, $alert_id) && $stmt->execute()) {
                 $_SESSION['alert_message'] = "Estado de la alerta actualizado con éxito.";
                 $_SESSION['alert_message_type'] = "success";
@@ -122,7 +123,7 @@ if (isset($_GET['action'])) {
 // --- CARGAR ALERTA PARA EDICIÓN ---
 if (isset($_GET['edit_id'])) {
     $edit_id = $_GET['edit_id'];
-    // <--- CORRECCIÓN: Usar 'contenido'
+    // Asegurarse de seleccionar 'titulo' y 'contenido' para pre-llenar el formulario
     $stmt = $conn->prepare("SELECT id, titulo, contenido, tipo, fecha_inicio, fecha_fin, activa FROM site_alerts WHERE id = ?");
     if ($stmt) {
         $stmt->bind_param("i", $edit_id);
@@ -140,7 +141,7 @@ if (isset($_GET['edit_id'])) {
 
 // --- OBTENER TODAS LAS ALERTAS PARA LISTADO ---
 $alerts = [];
-// <--- CORRECCIÓN: Usar 'contenido' y 'tipo'
+// Asegurarse de seleccionar 'titulo' y 'contenido' para el listado
 $result = $conn->query("SELECT id, titulo, contenido, tipo, fecha_inicio, fecha_fin, activa FROM site_alerts ORDER BY fecha_creacion DESC");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -161,17 +162,16 @@ $body_class = 'admin-page';
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:700&display=swap" rel="stylesheet">
-    
+
     <script src="https://cdn.tiny.cloud/1/8re4vem39f9zsq49n7ugnyvto179vnnssv9fi2ntx6zw4rei/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector: '#contenido', // <--- CORRECCIÓN: Usar '#contenido' para el TinyMCE
+            selector: '#contenido', // Muy importante: el ID del textarea debe coincidir
             plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
             toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help | image',
             language: 'es',
-            height: 300, // Altura del editor más pequeña para alertas
+            height: 300,
             menubar: false,
-            // Configuración para la subida de imágenes (misma que en noticias)
             images_upload_url: 'upload_image.php',
             images_upload_base_path: '/',
             image_title: true,
@@ -224,14 +224,16 @@ $body_class = 'admin-page';
             </div>
 
             <div class="form-group">
-                <label for="contenido">Contenido de la Alerta:</label> <textarea id="contenido" name="contenido" rows="10" required><?php echo htmlspecialchars($alert_to_edit['contenido'] ?? ''); ?></textarea>
+                <label for="contenido">Contenido de la Alerta:</label>
+                <textarea id="contenido" name="contenido" rows="10"><?php echo htmlspecialchars($alert_to_edit['contenido'] ?? ''); ?></textarea>
             </div>
 
             <div class="form-group">
                 <label for="alert_type">Tipo de Alerta:</label>
                 <select id="alert_type" name="alert_type" required>
                     <?php foreach ($alert_types as $type): ?>
-                        <option value="<?php echo htmlspecialchars($type); ?>" <?php echo ($alert_to_edit['tipo'] ?? 'info') == $type ? 'selected' : ''; ?>> <?php echo htmlspecialchars(ucfirst($type)); ?>
+                        <option value="<?php echo htmlspecialchars($type); ?>" <?php echo ($alert_to_edit['tipo'] ?? 'info') == $type ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars(ucfirst($type)); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -248,7 +250,8 @@ $body_class = 'admin-page';
             </div>
 
             <div class="form-group">
-                <input type="checkbox" id="is_active" name="is_active" value="1" <?php echo ($alert_to_edit['activa'] ?? true) ? 'checked' : ''; ?>> <label for="is_active" style="display:inline-block; margin-left: 5px;">Alerta Activa (Visible en el sitio)</label>
+                <input type="checkbox" id="is_active" name="is_active" value="1" <?php echo ($alert_to_edit['activa'] ?? true) ? 'checked' : ''; ?>>
+                <label for="is_active" style="display:inline-block; margin-left: 5px;">Alerta Activa (Visible en el sitio)</label>
             </div>
 
             <button type="submit" class="form-submit-btn"><?php echo $alert_to_edit ? 'Guardar Cambios' : 'Crear Alerta'; ?></button>
@@ -262,7 +265,8 @@ $body_class = 'admin-page';
             <p class="no-records">No hay alertas configuradas.</p>
         <?php else: ?>
             <div style="overflow-x: auto;">
-                <table class="solicitudes-table"> <thead>
+                <table class="solicitudes-table">
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Título</th>
@@ -279,7 +283,11 @@ $body_class = 'admin-page';
                         <tr>
                             <td data-label="ID"><?php echo htmlspecialchars($alert['id']); ?></td>
                             <td data-label="Título"><?php echo htmlspecialchars($alert['titulo'] ?? 'Sin título'); ?></td>
-                            <td data-label="Contenido"><?php echo htmlspecialchars(substr(strip_tags($alert['contenido']), 0, 100)) . '...'; ?></td> <td data-label="Tipo"><span class="status-badge <?php echo htmlspecialchars($alert['tipo']); ?>"><?php echo htmlspecialchars(ucfirst($alert['tipo'])); ?></span></td> <td data-label="Desde"><?php echo $alert['fecha_inicio'] ? htmlspecialchars($alert['fecha_inicio']) : 'Siempre'; ?></td> <td data-label="Hasta"><?php echo $alert['fecha_fin'] ? htmlspecialchars($alert['fecha_fin']) : 'Siempre'; ?></td> <td data-label="Activa">
+                            <td data-label="Contenido"><?php echo htmlspecialchars(substr(strip_tags($alert['contenido']), 0, 100)) . '...'; ?></td>
+                            <td data-label="Tipo"><span class="status-badge <?php echo htmlspecialchars($alert['tipo']); ?>"><?php echo htmlspecialchars(ucfirst($alert['tipo'])); ?></span></td>
+                            <td data-label="Desde"><?php echo $alert['fecha_inicio'] ? htmlspecialchars($alert['fecha_inicio']) : 'Siempre'; ?></td>
+                            <td data-label="Hasta"><?php echo $alert['fecha_fin'] ? htmlspecialchars($alert['fecha_fin']) : 'Siempre'; ?></td>
+                            <td data-label="Activa">
                                 <span class="status-badge <?php echo $alert['activa'] ? 'aprobada' : 'rechazada'; ?>">
                                     <?php echo $alert['activa'] ? 'Sí' : 'No'; ?>
                                 </span>
@@ -287,11 +295,11 @@ $body_class = 'admin-page';
                             <td data-label="Acciones">
                                 <div class="action-buttons-group">
                                     <a href="manage_alerts.php?edit_id=<?php echo htmlspecialchars($alert['id']); ?>" class="btn btn-sm btn-secondary">Editar</a>
-                                    <a href="manage_alerts.php?action=toggle_active&id=<?php echo htmlspecialchars($alert['id']); ?>&status=<?php echo $alert['activa'] ? 'true' : 'false'; ?>" 
+                                    <a href="manage_alerts.php?action=toggle_active&id=<?php echo htmlspecialchars($alert['id']); ?>&status=<?php echo $alert['activa'] ? 'true' : 'false'; ?>"
                                        class="btn btn-sm <?php echo $alert['activa'] ? 'btn-danger' : 'btn-success'; ?>">
                                         <?php echo $alert['activa'] ? 'Desactivar' : 'Activar'; ?>
                                     </a>
-                                    <a href="manage_alerts.php?action=delete&id=<?php echo htmlspecialchars($alert['id']); ?>" 
+                                    <a href="manage_alerts.php?action=delete&id=<?php echo htmlspecialchars($alert['id']); ?>"
                                        class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta alerta?');">
                                         Eliminar
                                     </a>
@@ -309,4 +317,4 @@ $body_class = 'admin-page';
 
 </body>
 </html>
-<?php $conn->close(); // Mueve el cierre de conexión al final del archivo principal ?>
+<?php $conn->close(); ?>

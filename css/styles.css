@@ -3030,3 +3030,90 @@ body.no-scroll {
     width: 100%;
     height: 100%;
 }
+/* ===========================================================================
+   Estilos para el Panel de Administración (admin_dashboard.php)
+   =========================================================================== */
+
+/* Contenedor principal del dashboard (ya existe, pero aseguro su ancho y centrado) */
+.admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la cuadrícula de tarjetas del dashboard */
+.dashboard-grid {
+    display: grid; /* Usa CSS Grid para el diseño de cuadrícula */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+    gap: var(--spacing-lg); /* Espacio entre las tarjetas */
+    margin-top: var(--spacing-xl); /* Espacio superior para separarlo del título */
+}
+
+/* Estilos para cada tarjeta individual en el dashboard */
+.dashboard-card {
+    background-color: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* Para centrar contenido de íconos y texto */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    color: var(--black); /* Color de texto por defecto para la tarjeta */
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    text-decoration: none; /* Asegura que no aparezca subrayado en hover */
+}
+
+.dashboard-card i { /* Estilo para los íconos de Font Awesome */
+    font-size: 3em; /* Tamaño grande para los íconos */
+    color: var(--primary-blue); /* Color azul principal para los íconos */
+    margin-bottom: var(--spacing-md);
+}
+
+.dashboard-card h3 { /* Estilo para el título de la tarjeta */
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.5em;
+    font-family: var(--font-heading); /* Asegura la fuente del título */
+}
+
+.dashboard-card p { /* Estilo para la descripción de la tarjeta */
+    font-size: 0.95em;
+    color: var(--dark-gray);
+    margin-bottom: 0; /* Elimina el margen inferior si es el último elemento */
+}
+
+/* Media Query para responsividad de las tarjetas del dashboard */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: var(--spacing-md);
+    }
+    .dashboard-card {
+        padding: var(--spacing-md);
+    }
+    .dashboard-card i {
+        font-size: 2.5em;
+        margin-bottom: var(--spacing-sm);
+    }
+    .dashboard-card h3 {
+        font-size: 1.3em;
+    }
+    .dashboard-card p {
+        font-size: 0.9em;
+    }
+}
+/* Estilos específicos para títulos dentro del panel de administración */
+.admin-container h2 {
+    text-align: center;
+}

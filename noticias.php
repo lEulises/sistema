@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once 'config.php'; // La conexión $conn se establece aquí.
 
 $noticias = [];
 
@@ -20,8 +20,10 @@ if ($stmt === false) {
         }
     }
     $stmt->close();
+    // ¡ELIMINA O COMENTA ESTA LÍNEA DE AQUÍ ABAJO!
+    // $conn->close(); // ¡ESTA LÍNEA ES EL PROBLEMA!
 }
-$conn->close();
+// ... (el resto de tu código PHP y HTML de noticias.php) ...
 
 $page_title = 'Noticias del Colegio - Colegio María Auxiliadora';
 $body_class = 'noticias-page';
@@ -38,7 +40,7 @@ $body_class = 'noticias-page';
 </head>
 <body class="<?php echo $body_class; ?>">
 
-<?php include 'includes/header.php'; ?>
+<?php include 'includes/header.php'; // Ahora $conn estará abierto cuando se incluya header.php ?>
 
     <div class="container section-padding">
         <h1 style="text-align: center; margin-bottom: 40px;">Últimas Noticias</h1>
@@ -54,11 +56,8 @@ $body_class = 'noticias-page';
                             <span class="fecha"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($noticia['fecha_publicacion'])); ?></span>
                             </div>
                         <div class="noticia-contenido">
-                            <?php 
-                                // OJO: El contenido del editor TinyMCE ya es HTML.
-                                // Si necesitas más seguridad, puedes usar una librería para sanear HTML.
-                                // Para mostrarlo, simplemente lo imprimimos.
-                                echo $noticia['contenido']; 
+                            <?php
+                                echo $noticia['contenido'];
                             ?>
                         </div>
                         </article>
@@ -71,3 +70,8 @@ $body_class = 'noticias-page';
 
 </body>
 </html>
+<?php
+// ¡AÑADE O MUEVE LA LÍNEA $conn->close(); AQUÍ, AL FINAL DEL ARCHIVO!
+// Esto asegura que la conexión se cierre después de que todas las partes de la página la hayan usado.
+$conn->close();
+?>
