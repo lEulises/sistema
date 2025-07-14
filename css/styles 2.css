@@ -1,0 +1,2305 @@
+/* ===========================================================================
+   Variables CSS (Colores y Fuentes)
+   =========================================================================== */
+:root {
+    /* Colores del Colegio */
+    --primary-blue: #074378;        /* Azul principal del colegio */
+    --accent-gold: #c49a62;         /* Dorado/Cobre de acento */
+    --secondary-blue: #0056b3;      /* Un azul ligeramente diferente si se necesita */
+
+    /* Colores Neutros */
+    --white: #ffffff;
+    --light-gray: #f4f7f6;          /* Fondo muy claro */
+    --medium-gray: #e6e9ee;         /* Fondo de secciones */
+    --dark-gray: #555555;           /* Texto general más suave */
+    --black: #333333;               /* Texto más oscuro, títulos */
+    --green-accent: #28a745;        /* Verde de acento similar al ejemplo */
+
+    /* Fuentes */
+    --font-body: 'Inter', Arial, sans-serif;
+    --font-heading: 'Playfair Display', serif;
+
+    /* Espaciado Básico */ 
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 40px;
+    --spacing-xl: 60px;
+}
+
+/* ===========================================================================
+   Estilos Generales (Reset y Base)
+   =========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--dark-gray);
+    background-color: var(--light-gray);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* CAMBIO: Añadida clase para evitar scroll en el body cuando el menú móvil está abierto */
+body.no-scroll {
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md); /* Padding por defecto (ej: 20px a los lados) */
+}
+
+/* === NUEVA ADICIÓN/AJUSTE para el .container en móviles muy pequeños === */
+@media (max-width: 576px) { /* Para pantallas de hasta 576px de ancho (móviles pequeños) */
+    .container {
+        padding: 0 var(--spacing-sm); /* Reduce el padding lateral a 10px (o menos si necesitas) */
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--black);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+h1 { font-size: 2.8em; }
+h2 { font-size: 2.2em; }
+h3 { font-size: 1.8em; }
+h4 { font-size: 1.4em; }
+
+p {
+    margin-bottom: var(--spacing-sm);
+}
+
+a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Botones genéricos */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+.btn-primary:hover {
+    background-color: var(--secondary-blue);
+    border-color: var(--secondary-blue);
+    color: var(--white);
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: var(--accent-gold);
+    color: var(--white);
+    border-color: var(--accent-gold);
+}
+.btn-secondary:hover {
+    background-color: #b38b58;
+    border-color: #b38b58;
+    color: var(--white);
+    text-decoration: none;
+}
+
+/* Secciones de contenido */
+.section-padding {
+    padding: var(--spacing-xl) 0;
+}
+.section-medium-gray {
+    background-color: var(--medium-gray);
+}
+
+/* Grid para programas o cards */
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+.program-card {
+    background-color: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.program-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+.program-card h3 {
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.5em;
+}
+.program-card p {
+    font-size: 0.95em;
+    color: var(--dark-gray);
+    margin-bottom: var(--spacing-md);
+}
+.program-card .read-more {
+    color: var(--accent-gold);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+.program-card .read-more:hover {
+    color: var(--primary-blue);
+    text-decoration: underline;
+}
+
+
+/* ===========================================================================
+   Header y Navegación (CSS ACTUALIZADO PARA CENTRADO DE LA BARRA COMPLETA)
+   =========================================================================== */
+
+.main-header {
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: var(--spacing-sm) 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content { /* Contenedor principal del header */
+    display: flex;
+    justify-content: center; /* Centra todo el contenido inicialmente */
+    align-items: center; /* Alinea verticalmente al centro */
+    width: 100%;
+    position: relative; /* Necesario para el posicionamiento del menú móvil */
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+}
+
+/* Solo el logo */
+.header-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    flex-shrink: 0; /* Evita que el logo se encoja */
+}
+
+.header-logo img {
+    height: 110px; /* Tamaño del logo para PC */
+    width: auto;
+    display: block;
+}
+
+.main-nav {
+    flex-grow: 1; /* Permite que la navegación ocupe el espacio central disponible */
+    display: flex;
+    justify-content: center; /* Centra la lista de navegación */
+    background-color: transparent;
+    padding: 0;
+    margin: 0 0px; /* Ajustamos los márgenes de la navegación para balancear el espacio */
+}
+
+.nav-list {
+    display: flex;
+    justify-content: center; /* Centra los items de la lista de navegación */
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list li {
+    position: relative;
+    margin: 0 5px;
+}
+
+.nav-list a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--black);
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+    border-radius: 5px;
+    background-color: transparent;
+    font-size: 0.9em;
+}
+
+.nav-list a:hover,
+.nav-list li.active > a {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+/* Submenús */
+.submenu {
+    display: none; /* CAMBIO: Se controla la visibilidad con JS/hover, inicialmente oculto */
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    background-color: var(--primary-blue);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    min-width: 240px;
+    z-index: 1050;
+    list-style: none;
+    border-radius: 8px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* CAMBIO: Mostrar el submenú de primer nivel al pasar el ratón (Desktop) */
+.nav-list li.has-submenu:hover > .submenu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CAMBIO: Estilos generales para los enlaces dentro de cualquier submenú */
+.submenu a {
+    padding: 12px 20px;
+    color: var(--white);
+    background-color: var(--primary-blue); /* Fondo para ítems de submenú */
+    font-weight: 400;
+    white-space: normal;
+    font-size: 0.95em;
+    border-bottom: 1px solid rgba(255,255,255,0.08); /* Línea divisoria */
+}
+.submenu li:last-child a {
+    border-bottom: none;
+}
+.submenu a:hover {
+    background-color: var(--accent-gold);
+    color: var(--black);
+}
+
+/* CAMBIO: Submenús anidados (Nested Submenu) */
+.nested-submenu {
+    position: absolute; /* CAMBIO: Posicionamiento absoluto para flotar */
+    left: 100%; /* Posiciona el sub-submenú a la DERECHA de su padre */
+    top: 0;      /* Alinea con la parte SUPERIOR de su padre */
+    /* Hereda las propiedades visuales de .submenu, como background, shadow, etc. */
+    display: none; /* CAMBIO: Oculto por defecto, se muestra en hover */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* CAMBIO: Muestra el SUB-SUBMENÚ al pasar el ratón (Desktop) */
+.submenu li.has-submenu:hover > .nested-submenu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Iconos de flecha para submenús */
+/* CAMBIO: .arrow-down para indicar despliegue vertical (principalmente en móvil) */
+.arrow-down {
+    margin-left: 5px;
+    font-size: 0.7em;
+    display: inline-block; /* Necesario para transformaciones */
+    transition: transform 0.3s ease;
+}
+
+/* CAMBIO: .arrow-right para indicar despliegue horizontal (para nested-submenu en desktop) */
+.arrow-right {
+    margin-left: 8px; /* Espacio entre el texto y la flecha */
+    font-size: 0.7em;
+    color: inherit; /* Hereda el color del texto del enlace */
+    transition: transform 0.3s ease;
+    display: inline-block; /* Para aplicar la transformación */
+}
+
+/* CAMBIO: Rotación de la flecha para sub-submenú en desktop al hacer hover */
+.submenu li.has-submenu:hover > a .arrow-right {
+    transform: rotate(90deg); /* Rota 90 grados para que apunte hacia abajo (visual de abierto) */
+}
+
+/* Botones de Acceso/Registro en el Header */
+.header-auth {
+    display: flex;
+    gap: 10px;
+    /* Añadimos margin-left para balancear con el margen derecho del logo */
+    margin-left: 5px;
+    flex-shrink: 0; /* Asegura que no se encojan si hay poco espacio */
+}
+
+.header-auth .btn {
+    width: 100px;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 0.85em;
+}
+
+/* Menú Hamburguesa (Mobile) */
+.menu-toggle {
+    display: none; /* Oculto por defecto en desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1050;
+}
+.menu-toggle .icon-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-blue);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* Estado activo del botón hamburguesa */
+.menu-toggle.active .icon-bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+.menu-toggle.active .icon-bar:nth-child(2) { opacity: 0; }
+.menu-toggle.active .icon-bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+
+
+/* ===========================================================================
+   Sección Principal de Contenido
+   =========================================================================== */
+.site-main-content {
+    flex-grow: 1;
+    padding: 0;
+    background-color: var(--light-gray);
+}
+
+/* ===========================================================================
+   Hero Section (Slideshow con Captions sobrepuestas)
+   =========================================================================== */
+.hero-section {
+    background-color: var(--dark-gray);
+    margin-bottom: var(--spacing-xl);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+.mySlides {
+    display: none;
+    width: 100%;
+    position: relative;
+}
+.mySlides img {
+    width: 100%;
+    height: 600px; /* Altura fija para desktop */
+    object-fit: cover;
+    display: block;
+}
+
+/* Caption del Hero (Bloque de texto con corte diagonal) */
+.hero-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    background-color: rgba(7, 67, 120, 0.9);
+    color: var(--white);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.hero-caption-content {
+    max-width: 600px;
+    margin-right: auto;
+}
+.hero-caption h1 {
+    font-size: 3em;
+    color: var(--accent-gold);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.1;
+}
+.hero-caption p {
+    font-size: 1.2em;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
+}
+.hero-caption .btn-secondary {
+    background-color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--white);
+}
+.hero-caption .btn-secondary:hover {
+    background-color: #b38b58;
+    border-color: #b38b58;
+}
+
+
+/* Flechas de navegación del slideshow */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+}
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Puntos indicadores */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+.dot.active {
+    background-color: var(--accent-gold);
+}
+
+/* Animación fade (para la transición de las imágenes) */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+
+/* ===========================================================================
+   Pie de página (con columnas)
+   =========================================================================== */
+.main-footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: var(--spacing-lg) 0;
+    border-top: 5px solid var(--accent-gold);
+    text-align: left;
+    font-size: 0.9em;
+    margin-top: auto;
+}
+
+.footer-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px;
+    padding: 0 var(--spacing-sm);
+}
+
+.footer-column h3 {
+    color: var(--accent-gold);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* Estilos específicos para la columna de contacto */
+.contact-info-col p {
+    display: flex;
+    align-items: flex-start; /* Alinea los íconos con el inicio del texto */
+    gap: 10px;
+    margin-bottom: var(--spacing-sm);
+    color: var(--white);
+    font-size: 1em;
+    line-height: 1.4;
+    flex-wrap: wrap; /* Importante para que el texto se envuelva */
+}
+
+.contact-info-col p i {
+    color: #c49a62;
+    font-size: 1.1em;
+    flex-shrink: 0;
+    width: 20px; /* Ancho fijo para alinear iconos */
+    text-align: center;
+}
+
+/* Estilos para la columna de iconos sociales */
+.social-icons-footer {
+    margin-top: var(--spacing-sm);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-start;
+    list-style: none;
+    padding: 0;
+}
+.social-icons-footer li {
+    margin-bottom: 0;
+}
+.social-icons-footer a {
+    color: var(--white);
+    font-size: 1.4em;
+    width: 38px;
+    height: 38px;
+    background-color: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+.social-icons-footer a:hover {
+    background-color: var(--accent-gold);
+    color: var(--primary-blue);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.language-selector-footer {
+    margin-top: var(--spacing-md);
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.1);
+    color: var(--white);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+.language-selector-footer:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+.language-selector-footer i {
+    color: var(--accent-gold);
+}
+
+
+/* Estilos para la columna de enlaces de navegación */
+.nav-links-col ul {
+    list-style: none;
+    padding: 0;
+}
+.nav-links-col li {
+    margin-bottom: var(--spacing-xs);
+}
+.nav-links-col a {
+    color: var(--white);
+    transition: color 0.3s ease;
+    display: inline-block;
+}
+.nav-links-col a:hover {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}
+
+/* Estilos para la columna "Acerca del Colegio" (extra-info-col) */
+.extra-info-col p {
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+.footer-btn {
+    width: auto;
+    min-width: 150px;
+}
+
+
+/* Copyright section */
+.main-footer .copyright {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+/* ===========================================================================
+   Media Queries Globales
+   =========================================================================== */
+@media (max-width: 992px) { /* Tablets y móviles */
+
+    /* Regla para el body cuando el menú móvil está activo */
+    body.no-scroll {
+        overflow: hidden !important;
+        position: fixed !important;
+        width: 100vw !important; /* Forzar 100% del ancho del viewport */
+        height: 100vh !important;
+        top: 0 !important; /* Asegurar que no haya offset */
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        /* Asegurar que el body no tenga márgenes/paddings por defecto */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Header visible en mobile (logo y hamburguesa) */
+    .main-header {
+        padding: var(--spacing-sm) 0 !important;
+        height: auto !important;
+        min-height: 80px !important;
+        position: fixed !important; /* Header DEBE ser fijo en mobile */
+        width: 100vw !important; /* Forzar 100% del ancho del viewport */
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 1001 !important; /* Más alto que el menú desplegable */
+        background-color: var(--white) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    }
+    .header-content {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        padding-left: var(--spacing-md) !important;
+        padding-right: var(--spacing-md) !important;
+        height: 100% !important;
+    }
+
+    .header-logo {
+        margin-right: auto !important;
+        margin-bottom: 0 !important;
+        order: 1 !important;
+        align-self: center !important;
+    }
+    .header-logo img {
+        height: 70px !important;
+    }
+
+    /* Menú Hamburguesa (siempre visible en este breakpoint) */
+    .menu-toggle {
+        display: block !important;
+        position: static !important;
+        margin-left: var(--spacing-md) !important;
+        order: 2 !important;
+        background: none !important;
+        border: none !important;
+        cursor: pointer !important;
+        padding: 10px !important;
+        z-index: 1050 !important;
+    }
+    .menu-toggle .icon-bar {
+        display: block !important;
+        width: 25px !important;
+        height: 3px !important;
+        background-color: var(--primary-blue) !important;
+        margin: 5px 0 !important;
+        transition: all 0.3s ease !important;
+    }
+    .menu-toggle.active .icon-bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px) !important; }
+    .menu-toggle.active .icon-bar:nth-child(2) { opacity: 0 !important; }
+    .menu-toggle.active .icon-bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px) !important; }
+
+
+    /* Contenedor principal del MENÚ DESPLEGABLE (main-nav ahora incluye header-auth) */
+    .main-nav {
+        display: none !important; /* Oculto por defecto, controlado por JS */
+        position: fixed !important;
+        top: 0 !important;
+        left: 0px !important; /* <--- CLAVE: Ajuste para el borde blanco */
+        width: 100vw !important; /* <--- CLAVE: Ocupa el 100% del ancho del viewport */
+        height: 100vh !important;
+        background-color: var(--primary-blue) !important;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.4) !important;
+        max-height: 0 !important;
+        overflow-y: hidden !important;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding-top: 0 !important; /* El padding superior general se aplicará en .main-nav.active */
+        padding-bottom: 0 !important;
+        border-radius: 0 0 8px 8px !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        z-index: 998 !important;
+    }
+
+    /* El bloque header-auth (dentro de main-nav) se oculta en desktop/mobile por defecto */
+    .header-auth {
+        display: none !important; /* Oculto por defecto en mobile (y desktop) */
+        flex-direction: column !important;
+        align-items: center !important; /* Alineación del texto y botón dentro de header-auth */
+        width: 100% !important;
+        padding: 20px !important;
+        border-top: 1px solid rgba(255,255,255,0.1) !important;
+        gap: 10px !important;
+        margin-top: 10px !important;
+        background-color: transparent !important;
+        text-align: center !important; /* Asegura el centrado del texto si no es flex */
+    }
+
+    /* Aseguramos que el contenido principal de la página quede oculto */
+    .site-main-content {
+        z-index: 1 !important;
+        position: relative !important;
+    }
+
+
+    /* Cuando el menú hamburguesa está activo, se muestran */
+    .main-nav.active {
+        max-height: 100vh !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        overflow-y: auto !important;
+        /* <--- CLAVE: Ajustar padding-top para el contenido del menú */
+        padding-top: 70px !important; /* Altura del header es 70px en este breakpoint */
+        padding-left: 0 !important; /* Elimina padding izquierdo */
+        padding-right: 0 !important; /* Elimina padding derecho */
+        padding-bottom: var(--spacing-sm) !important;
+        justify-content: flex-start !important; /* Alinea el contenido del menú al inicio */
+    }
+    /* Asegurar que el bloque header-auth se muestre cuando el menú principal está activo */
+    .main-nav.active .header-auth {
+        display: flex !important;
+    }
+
+    .nav-list {
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items: flex-start !important;
+        padding: 0 !important; /* Elimina paddings en nav-list */
+        margin: 0 !important; /* Elimina márgenes en nav-list */
+        display: flex !important;
+        order: 1 !important;
+    }
+    .nav-list li {
+        width: 100% !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        margin: 0 !important;
+        background-color: transparent !important;
+        color: var(--white) !important;
+    }
+    .nav-list li:last-child {
+        border-bottom: none !important;
+    }
+    .nav-list a {
+        color: var(--white) !important;
+        padding: 14px 20px !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        font-size: 0.95em !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+    .nav-list a:hover,
+    .nav-list li.active > a {
+        background-color: var(--accent-gold) !important;
+        color: var(--black) !important;
+    }
+    .nav-list li.has-submenu > a {
+        color: var(--white) !important;
+        background-color: transparent !important;
+    }
+    .nav-list li.has-submenu.active > a {
+        background-color: var(--accent-gold) !important;
+        color: var(--black) !important;
+    }
+
+    /* Estilos del contenido del header-auth (ahora dentro de main-nav) */
+    .header-auth .btn {
+        width: 100% !important;
+        font-size: 0.9em !important;
+        padding: 12px !important;
+        min-width: unset !important;
+    }
+    /* Asegura que el texto y el botón dentro del header-auth se centren si su contenedor es flex */
+    .user-info-display {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* Centra horizontalmente los elementos del saludo */
+        text-align: center !important; /* Centra el texto */
+        white-space: normal !important;
+        margin-bottom: 10px !important;
+        font-size: 1em !important;
+        width: 100% !important;
+        color: var(--white) !important;
+    }
+    .user-info-display span:first-child {
+        font-size: 0.9em !important;
+        color: var(--white) !important;
+    }
+    .user-info-display .user-full-name {
+        font-size: 1.1em !important;
+        color: var(--accent-gold) !important;
+    }
+
+    /* Flechas en móvil para todos los elementos con submenú */
+    .nav-list .has-submenu > a .arrow-down,
+    .nav-list .has-submenu > a .arrow-right {
+        position: static !important;
+        margin-left: 10px !important;
+        transform: rotate(0deg) !important;
+        color: var(--white) !important;
+    }
+    .nav-list li.has-submenu.active > a .arrow-down,
+    .nav-list li.has-submenu.active > a .arrow-right {
+        transform: rotate(180deg) !important;
+        color: var(--black) !important;
+    }
+
+    /* Submenús y Sub-Submenús en móvil (se apilan y se muestran con JS) */
+    .submenu, .nested-submenu {
+        position: static !important;
+        background-color: rgba(0,0,0,0.2) !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        display: none !important;
+        padding-left: 20px !important;
+        border-radius: 0 !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .nav-list li.has-submenu.active > .submenu {
+        display: block !important;
+    }
+    .nested-submenu {
+        padding-left: 40px !important;
+        background-color: rgba(0,0,0,0.1) !important;
+    }
+    .submenu li.has-submenu.active > .nested-submenu {
+        display: block !important;
+    }
+    .submenu a, .nested-submenu a {
+        padding-left: 40px !important;
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    }
+    .nested-submenu a {
+        padding-left: 60px !important;
+    }
+
+    /* Hero Section en tablet */
+    .mySlides img {
+        height: 500px !important;
+    }
+    .hero-caption {
+        width: 80% !important;
+        padding: var(--spacing-md) !important;
+        clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%) !important;
+    }
+    .hero-caption h1 {
+        font-size: 2.5em !important;
+    }
+    .hero-caption p {
+        font-size: 1.1em !important;
+    }
+
+    /* Grid de programas en tablet */
+    .grid-3-cols {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+        gap: var(--spacing-md) !important;
+    }
+
+    /* Footer en Tablet: 2 columnas */
+    .footer-content-wrapper {
+        justify-content: space-around !important;
+        gap: var(--spacing-lg) !important;
+    }
+    .footer-column {
+        flex: 1 1 45% !important;
+        min-width: 280px !important;
+        padding: 0 !important;
+    }
+    .footer-column h3 {
+        text-align: center !important;
+    }
+    .contact-info-col p,
+    .social-icons-footer,
+    .language-selector-footer,
+    .nav-links-col ul,
+    .extra-info-col p,
+    .footer-btn {
+        justify-content: center !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media (max-width: 768px) { /* Móviles más pequeños - ESTE ES EL BREAKPOINT PRINCIPAL PARA MÓVIL */
+    /* Header en Móvil */
+    .main-header {
+        padding: var(--spacing-sm) 0 !important;
+        min-height: 60px !important;
+    }
+    .header-content {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .header-logo img {
+        height: 60px !important;
+    }
+
+    /* Reafirma estilos para el menú móvil */
+    .main-nav.active {
+        top: 60px !important; /* Ajusta este valor si tu header es más alto o más bajo en este breakpoint */
+        height: calc(100vh - 60px) !important;
+        max-height: calc(100vh - 60px) !important;
+        overflow-y: auto !important;
+        padding-top: 60px !important; /* <--- CLAVE: Ajustar padding-top para 768px */
+    }
+    /* Estilos del header-auth cuando es parte del menú activo */
+    .header-auth {
+        margin-top: 20px !important;
+    }
+    /* Asegura que los enlaces del nav-list ocupen el ancho completo */
+    .nav-list a {
+        padding: 12px 15px !important;
+        font-size: 0.9em !important;
+    }
+    /* Estilos del user-info-display en este breakpoint */
+    .user-info-display {
+        font-size: 0.85em !important;
+    }
+    .user-info-display .user-full-name {
+        font-size: 1em !important;
+    }
+
+
+    /* Hero Section en móvil */
+    .hero-section {
+        margin-bottom: var(--spacing-lg) !important;
+    }
+    .mySlides img {
+        height: 350px !important;
+    }
+    .hero-caption {
+        width: 100% !important;
+        padding: var(--spacing-md) !important;
+        clip-path: none !important;
+        background-color: rgba(7, 67, 120, 0.95) !important;
+        position: static !important;
+        transform: none !important;
+        border-radius: 0 0 8px 8px !important;
+        text-align: center !important;
+    }
+    .hero-caption-content {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .hero-caption h1 {
+        font-size: 2em !important;
+    }
+    .hero-caption p {
+        font-size: 1em !important;
+        margin-bottom: var(--spacing-md) !important;
+    }
+    .prev, .next {
+        font-size: 1.5em !important;
+        padding: 10px !important;
+    }
+    .dot {
+        height: 12px !important;
+        width: 12px !important;
+    }
+
+    /* Footer: Apila las columnas verticalmente en móviles */
+    .footer-content-wrapper {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .footer-column {
+        min-width: unset !important;
+        width: 100% !important;
+        margin-bottom: var(--spacing-md) !important;
+        padding: 0 !important;
+    }
+    .footer-column:last-of-type {
+        margin-bottom: 0 !important;
+    }
+    .footer-column h3 {
+        text-align: center !important;
+    }
+    .contact-info-col p {
+        justify-content: center !important;
+    }
+    .social-icons-footer {
+        justify-content: center !important;
+    }
+    .language-selector-footer {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .nav-links-col ul {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    /* Grid de programas en móvil */
+    .grid-3-cols {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-md) !important;
+    }
+}
+
+@media (max-width: 576px) { /* Móviles muy pequeños */
+    .mission-vision-section h1 {
+        font-size: 2.2em !important;
+    }
+
+    .mission-column h2,
+    .vision-column h2,
+    .values-content h2 {
+        font-size: 1.6em !important;
+    }
+
+    .mission-column p,
+    .vision-column p,
+    .values-content li {
+        font-size: 1em !important;
+    }
+}
+/* ===========================================================================
+   Sección de Misión y Visión
+   =========================================================================== */
+.mission-vision-section {
+    padding: var(--spacing-xl) var(--spacing-md); /* Usa variables de espaciado */
+    background-color: var(--white); /* Fondo blanco para el contenido */
+    border-radius: 8px;
+    margin-top: var(--spacing-lg); /* Espacio superior para separarlo de la sección hero o el top */
+    margin-bottom: var(--spacing-lg); /* Espacio inferior */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sombra sutil */
+    display: flex;
+    flex-direction: column; /* Por defecto, apila los elementos */
+    align-items: center; /* Centra el contenido cuando se apila */
+}
+
+.mission-vision-section h1 {
+    text-align: center;
+    color: var(--primary-blue); /* Usa el azul principal para el título */
+    margin-bottom: var(--spacing-xl); /* Más espacio después del título principal */
+    font-size: 3em; /* Ajusta el tamaño de fuente si es necesario */
+}
+
+.mission-vision-content {
+    display: flex;
+    flex-direction: column; /* Por defecto para móviles, apila las columnas */
+    align-items: center; /* Centra las columnas apiladas */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 1000px; /* Limita el ancho máximo para legibilidad en pantallas grandes */
+    gap: var(--spacing-lg); /* Espacio entre las columnas */
+}
+
+.mission-column,
+.vision-column {
+    flex: 1; /* Permite que las columnas se expandan */
+    padding: var(--spacing-md);
+    background-color: var(--light-gray); /* Fondo ligero para cada columna */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra para cada columna */
+    position: relative; /* Para la línea vertical si se usa pseudo-elemento */
+}
+
+.mission-column h2,
+.vision-column h2 {
+    color: var(--accent-gold); /* Títulos de Misión/Visión en dorado */
+    text-align: center; /* Centra el título dentro de cada columna */
+    margin-bottom: var(--spacing-md);
+    font-size: 2em; /* Ajusta el tamaño */
+    position: relative;
+    padding-bottom: 10px; /* Espacio para el borde inferior si se usa */
+}
+
+.mission-column h2::after,
+.vision-column h2::after {
+    content: '';
+    display: block;
+    width: 60px; /* Ancho de la línea bajo el título */
+    height: 3px;
+    background-color: var(--primary-blue); /* Línea bajo el título en azul */
+    margin: 10px auto 0 auto; /* Centra la línea */
+    border-radius: 2px;
+}
+
+.mission-column p,
+.vision-column p {
+    text-align: justify; /* Justifica el texto para una lectura más formal */
+    line-height: 1.8; /* Mejora la legibilidad */
+    color: var(--dark-gray);
+    font-size: 1.1em;
+}
+
+.vertical-divider {
+    display: none; /* Oculto por defecto en móviles */
+    width: 3px; /* Ancho de la línea divisoria */
+    background-color: var(--accent-gold); /* Color dorado para la línea */
+    border-radius: 2px;
+    flex-shrink: 0; /* Evita que la línea se encoja */
+}
+
+/* Estilos para la sección de Valores (si se mantiene debajo) */
+.values-content {
+    margin-top: var(--spacing-xl); /* Espacio considerable encima de los valores */
+    background-color: var(--medium-gray); /* Un gris medio como fondo */
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 1000px; /* Alinea el ancho con las columnas de misión/visión */
+}
+
+.values-content h2 {
+    color: var(--primary-blue); /* Título de valores en azul */
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-size: 2em;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.values-content h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-gold); /* Línea bajo el título de valores en dorado */
+    margin: 10px auto 0 auto;
+    border-radius: 2px;
+}
+
+.values-content ul {
+    list-style: none; /* Quitamos el estilo por defecto */
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grid para valores */
+    gap: var(--spacing-md);
+}
+
+.values-content li {
+    background-color: var(--white);
+    padding: var(--spacing-md);
+    border-left: 5px solid var(--accent-gold); /* Borde lateral dorado */
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    font-size: 1.05em;
+    color: var(--black);
+}
+
+.values-content li strong {
+    color: var(--primary-blue); /* Negrita del valor en azul */
+    font-size: 1.1em;
+    display: block; /* Para que el valor esté en su propia línea o tenga espacio */
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ===========================================================================
+   Media Queries para la Sección de Misión y Visión
+   =========================================================================== */
+@media (min-width: 769px) { /* A partir de tabletas grandes y desktop */
+    .mission-vision-content {
+        flex-direction: row; /* Columnas lado a lado */
+        justify-content: center; /* Centra las columnas si no llenan todo el ancho */
+        align-items: flex-start; /* Alinea las columnas desde arriba */
+    }
+
+    .mission-column,
+    .vision-column {
+        min-height: 400px; /* Asegura que ambas columnas tengan una altura mínima para la línea */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centra el contenido verticalmente si el texto es corto */
+    }
+
+    .vertical-divider {
+        display: block; /* Muestra la línea divisoria */
+        height: auto; /* La altura se adaptará al contenido de las columnas */
+        align-self: stretch; /* Estira la línea para que ocupe la altura de la columna más alta */
+        margin: 0 var(--spacing-lg); /* Espacio lateral para la línea */
+    }
+}
+
+/* Media Query ya existente para móviles muy pequeños, no hay cambios */
+@media (max-width: 576px) {
+    .mission-vision-section h1 {
+        font-size: 2.2em;
+    }
+    .mission-column h2,
+    .vision-column h2,
+    .values-content h2 {
+        font-size: 1.6em;
+    }
+    .mission-column p,
+    .vision-column p,
+    .values-content li {
+        font-size: 1em;
+    }
+}
+
+/* ===========================================================================
+   Sección de Ubicación y Contacto (ubicacion.php) - ¡MODIFICADO Y UNIFICADO! 2
+   =========================================================================== */
+.contact-section h1{
+    text-align: center !important; /* Añadido !important */
+    color: var(--primary-blue);
+}
+.contact-section p{
+    text-align: center !important; /* Añadido !important */
+}
+.location-section {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background-color: var(--white);
+    border-radius: 8px;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.location-section h1 {
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-sm);
+    font-size: 3em;
+}
+
+.location-section p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.1em;
+    color: var(--dark-gray);
+}
+
+.map-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: var(--spacing-lg);
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.contact-info-map-section {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    gap: var(--spacing-lg); /* Espacio entre las tarjetas */
+    margin-top: var(--spacing-xl);
+}
+
+.contact-card,
+.contact-form-card {
+    flex: 1; /* Permite que las tarjetas crezcan */
+    /* REMOVIDO: min-width: 300px; - Se manejará con width: 100% en mobile */
+    background-color: var(--light-gray);
+    padding: var(--spacing-lg); /* Padding por defecto, se ajustará en mobile */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: left;
+    /* Aseguramos box-sizing explícitamente aquí si hay dudas */
+    box-sizing: border-box;
+}
+
+.contact-card h3,
+.contact-form-card h3 {
+    color: var(--primary-blue); /* Ajustado a primary-blue para consistencia si no hay golden accent */
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    font-size: 1.8em;
+}
+
+.contact-card p {
+    display: flex;
+    align-items: flex-start; /* Alinea los íconos con el inicio del texto */
+    gap: 10px;
+    margin-bottom: var(--spacing-sm);
+    color: var(--dark-gray);
+    font-size: 1em;
+    line-height: 1.4;
+    flex-wrap: wrap; /* Importante para que el texto se envuelva */
+}
+
+.contact-card p i {
+    color: var(--primary-blue);
+    font-size: 1.2em;
+    flex-shrink: 0;
+    width: 20px; /* Ancho fijo para alinear iconos */
+    text-align: center;
+}
+
+.contact-card .btn {
+    margin-top: var(--spacing-md);
+    display: block;
+    width: 100%;
+}
+
+/* Estilos para el formulario de contacto */
+.contact-form .form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: var(--black);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 1em;
+    color: var(--dark-gray);
+    background-color: var(--white);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Asegurarse que se aplica aquí también */
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(7, 67, 120, 0.2);
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form .btn-secondary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+}
+
+/* Media Queries para la sección de Ubicación */
+@media (min-width: 992px) { /* Tabletas grandes y Desktop */
+    .contact-card,
+    .contact-form-card {
+        flex: 1;
+        max-width: 48%; /* Para tener dos columnas con un pequeño espacio entre ellas */
+    }
+}
+
+@media (max-width: 768px) { /* Móviles */
+    .location-section h1 {
+        font-size: 2.5em;
+    }
+    .location-section p {
+        font-size: 1em;
+    }
+    .map-container {
+        padding-bottom: 75%; /* Más altura para el mapa en móviles (relación 4:3) */
+    }
+    .contact-card,
+    .contact-form-card {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        padding: var(--spacing-md); /* Reducir el padding de la tarjeta a 20px para móvil */
+        flex-basis: 100%; /* Asegura que cada uno tome su propia línea */
+        margin-bottom: var(--spacing-md); /* Espacio entre las tarjetas apiladas */
+    }
+    /* Para controlar el orden en móvil */
+    .contact-form-card {
+        order: -1; /* Muestra el formulario primero */
+    }
+    .contact-card {
+        order: 1; /* Muestra la información de contacto después */
+    }
+}
+
+@media (max-width: 576px) { /* Móviles muy pequeños */
+    .location-section h1 {
+        font-size: 2em;
+    }
+    .contact-card h3,
+    .contact-form-card h3 {
+        font-size: 1.6em;
+    }
+    /* Ajustar el padding de la tarjeta aún más si es necesario en pantallas minúsculas */
+    .contact-card,
+    .contact-form-card {
+        padding: var(--spacing-sm); /* Reducir el padding a 10px para móviles muy pequeños */
+    }
+}
+/* --- Estilos para la lista de correos por departamento dentro de la tarjeta de contacto --- */
+.email-departments-list {
+    margin-top: var(--spacing-md); /* Espacio superior para separar de la info general */
+    padding-top: var(--spacing-md); /* Pequeño padding interno superior */
+    border-top: 1px solid var(--medium-gray); /* Línea divisoria sutil */
+}
+
+.email-departments-list h3 {
+    font-size: 1.2em; /* Tamaño de fuente para el título de la subsección */
+    color: var(--primary-blue);
+    margin-bottom: var(--spacing-md);
+    text-align: center; /* Centrar el título de la subsección */
+}
+
+.email-departments-list ul {
+    list-style: none; /* Eliminar viñetas por defecto */
+    padding: 0;
+    margin: 0;
+}
+
+.email-departments-list li {
+    display: flex; /* Mantiene el ícono y la información en línea */
+    align-items: flex-start; /* Alinea el ícono con la parte superior del contenido */
+    gap: 10px; /* Espacio entre el ícono y el bloque de info */
+    margin-bottom: var(--spacing-sm); /* Espacio entre cada correo */
+    color: var(--dark-gray);
+    font-size: 0.95em; /* Ligeramente más pequeño para la lista */
+    line-height: 1.3;
+}
+
+.email-departments-list li i {
+    color: var(--primary-blue);
+    font-size: 1em;
+    flex-shrink: 0; /* Evita que el ícono se encoja */
+    width: 20px; /* Ancho fijo para alinear íconos */
+    text-align: center;
+}
+
+.email-departments-list .email-info {
+    display: flex; /* Hace que el nombre del departamento y el correo se puedan organizar */
+    flex-direction: column; /* Apila el nombre y el correo verticalmente */
+    flex-grow: 1; /* Permite que este div ocupe el espacio restante */
+    word-break: break-word; /* Permite que las palabras largas se rompan y envuelvan */
+}
+
+.email-departments-list .department-name {
+    font-weight: 600; /* Hace el nombre del departamento más prominente */
+    color: var(--black); /* Color más oscuro para el nombre del departamento */
+    margin-bottom: 2px; /* Pequeño espacio entre el nombre y el correo */
+}
+
+.email-departments-list li a {
+    color: var(--primary-blue); /* Color del enlace del correo */
+    text-decoration: none;
+    word-break: break-all; /* Asegura que la dirección de correo se rompa si es muy larga */
+}
+
+.email-departments-list li a:hover {
+    text-decoration: underline;
+}
+
+/* --- Ajustes en Media Queries si fuera necesario (revisa cómo se ve primero) --- */
+@media (max-width: 576px) { /* Móviles muy pequeños */
+    .email-departments-list li {
+        font-size: 0.9em; /* Quizás un poco más pequeño en pantallas minúsculas */
+    }
+}
+/* ===========================================================================
+   Estilos para Formularios (solicitud_cupo.php)
+   =========================================================================== */
+.form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.form-container h2 {
+    text-align: center;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+.form-section {
+    border: 1px solid var(--medium-gray);
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 6px;
+    background-color: var(--light-gray);
+}
+.form-section h3 {
+    color: var(--black);
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--medium-gray);
+    padding-bottom: 10px;
+    font-size: 1.5em;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+    background-color: var(--white);
+    color: var(--black);
+}
+.form-group input[type="date"] {
+    padding-right: 15px; /* Espacio para el ícono del calendario */
+}
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(7, 67, 120, 0.2); /* Sombra azul al enfocar */
+}
+.form-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.form-submit-btn:hover {
+    background-color: var(--secondary-blue);
+}
+
+/* Mensajes de feedback */
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive adjustments para formularios */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    .form-container h2 {
+        font-size: 1.8em;
+    }
+    .form-section {
+        padding: 15px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+    }
+    .form-submit-btn {
+        font-size: 1em;
+        padding: 12px;
+    }
+}
+
+/* ===========================================================================
+   Estilos para Tablas de Administración (ver_solicitudes.php)
+   =========================================================================== */
+.admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.admin-container h2 {
+    text-align: center;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+    font-size: 2.2em;
+}
+.filter-sort-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: var(--light-gray);
+    border-radius: 6px;
+    align-items: flex-end;
+}
+.filter-sort-form label {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+.filter-sort-form input[type="text"],
+.filter-sort-form select {
+    padding: 8px 12px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 5px;
+    font-size: 0.9em;
+    background-color: var(--white);
+    color: var(--black);
+}
+.filter-sort-form button {
+    padding: 10px 18px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.filter-sort-form button:hover {
+    background-color: var(--secondary-blue);
+}
+
+.solicitudes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.solicitudes-table th, .solicitudes-table td {
+    border: 1px solid var(--medium-gray);
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+}
+.solicitudes-table th {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-weight: 600;
+    cursor: pointer;
+}
+.solicitudes-table th:hover {
+    background-color: var(--secondary-blue);
+}
+.solicitudes-table tr:nth-child(even) {
+    background-color: var(--light-gray);
+}
+.solicitudes-table tr:hover {
+    background-color: #e0e6ec;
+}
+.no-records {
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+    color: var(--dark-gray);
+    font-size: 1.1em;
+}
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--white);
+    text-transform: capitalize;
+    text-align: center;
+}
+.status-badge.pendiente { background-color: #ffc107; color: #333; } /* Amarillo */
+.status-badge.en_revision { background-color: #17a2b8; } /* Azul cian */
+.status-badge.aprobada { background-color: #28a745; } /* Verde */
+.status-badge.rechazada { background-color: #dc3545; } /* Rojo */
+.status-badge.inscrito { background-color: var(--primary-blue); } /* Azul oscuro */
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+    .admin-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    .solicitudes-table, .solicitudes-table thead, .solicitudes-table tbody, .solicitudes-table th, .solicitudes-table td, .solicitudes-table tr {
+        display: block;
+    }
+    .solicitudes-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    .solicitudes-table tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--medium-gray);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .solicitudes-table td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+    .solicitudes-table td:before {
+        position: absolute;
+        top: 0;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--dark-gray);
+        content: attr(data-label); /* Usa el atributo data-label para el encabezado */
+    }
+    .solicitudes-table td:last-child {
+        border-bottom: 0;
+    }
+    .filter-sort-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+/* ===========================================================================
+   Estilos para el Formulario de Login (login.php)
+   =========================================================================== */
+.login-container {
+    max-width: 950px; /* <--- ¡CAMBIO GRANDE! Formulario mucho más ancho en desktop */
+    margin: 80px auto;
+    padding: 100px; /* <--- ¡CAMBIO GRANDE! Más espacio interno al rededor de los campos */
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-container h2 {
+    color: var(--primary-blue);
+    margin-bottom: 30px; /* Un poco más de espacio debajo del título */
+    font-size: 2.5em; /* <--- Título más grande */
+    font-family: var(--font-heading);
+}
+.login-form .form-group {
+    margin-bottom: 30px; /* Más espacio entre cada campo y su etiqueta */
+    text-align: left;
+}
+.login-form label {
+    display: block;
+    margin-bottom: 12px; /* Más espacio entre la etiqueta y el input */
+    font-weight: 600;
+    color: var(--dark-gray);
+    font-family: var(--font-body);
+    font-size: 1.1em; /* <--- Etiqueta un poco más grande */
+}
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%; /* Sigue ocupando el 100% del (ahora mucho más ancho) contenedor */
+    padding: 10px; /* <--- ¡CAMBIO GRANDE! Campos mucho más altos y anchos */
+    border: 1px solid var(--medium-gray);
+    border-radius: 8px; /* Bordes un poco más redondeados para suavizar */
+    font-size: 1.2em; /* <--- ¡CAMBIO GRANDE! Fuente dentro del campo más grande */
+    box-sizing: border-box;
+    background-color: var(--white);
+    color: var(--black);
+    font-family: var(--font-body);
+}
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(7, 67, 120, 0.3); /* Sombra de enfoque más prominente */
+}
+.login-form button {
+    display: block;
+    width: 100%;
+    padding: 15px; /* <--- ¡CAMBIO GRANDE! Botón mucho más alto */
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px; /* Bordes un poco más redondeados para el botón */
+    font-size: 1.3em; /* <--- ¡CAMBIO GRANDE! Fuente del botón más grande */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: var(--font-body);
+    margin-top: 30px; /* Más espacio entre el último campo y el botón */
+}
+.login-form button:hover {
+    background-color: var(--secondary-blue);
+}
+.login-message {
+    margin-top: 25px; /* Más espacio para mensajes de feedback */
+    padding: 15px; /* Mensajes más grandes */
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: var(--font-body);
+    font-size: 1.1em;
+}
+.login-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.login-message.success { /* Asegurémonos de tener un estilo para éxito también */
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.form-links { /* Si tienes enlaces de "olvidé contraseña", etc. */
+    margin-top: 30px; /* Más espacio después del botón */
+    font-size: 1.1em; /* Enlaces más grandes */
+}
+.form-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Para ponerlos en fila si hay varios */
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.form-links a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+.form-links a:hover {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments para login */
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%; /* Sigue ocupando el 90% en móviles/tablets */
+        margin: var(--spacing-lg) auto; /* Ajusta el margen superior/inferior para móviles */
+        padding: var(--spacing-xl); /* <--- AJUSTADO: Padding en móviles a 60px */
+    }
+    .login-container h2 {
+        font-size: 2em; /* Título un poco más pequeño en móvil */
+        margin-bottom: 20px;
+    }
+    .login-form .form-group {
+        margin-bottom: 20px;
+    }
+    .login-form label {
+        font-size: 1em;
+        margin-bottom: 8px;
+    }
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+        padding: 10px; /* <--- AJUSTADO: Inputs proporcionales en móvil */
+        font-size: 1.1em;
+        border-radius: 6px;
+    }
+    .login-form button {
+        font-size: 1.2em;
+        padding: 16px; /* Ajuste para botón en móvil */
+        border-radius: 6px;
+        margin-top: 25px;
+    }
+    .login-message {
+        padding: 12px;
+        font-size: 1em;
+        margin-top: 20px;
+    }
+    .form-links {
+        margin-top: 25px;
+        font-size: 1em;
+        gap: 15px;
+    }
+}
+
+/* Media Query adicional para móviles muy pequeños si los valores anteriores son demasiado grandes */
+@media (max-width: 480px) {
+    .login-container {
+        padding: var(--spacing-lg); /* Reduce el padding a 40px en móviles muy pequeños */
+        margin: var(--spacing-md) auto;
+    }
+    .login-container h2 {
+        font-size: 1.8em;
+    }
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+        padding: 15px; /* Inputs más pequeños para pantallas muy chicas */
+        font-size: 0.95em;
+    }
+    .login-form button {
+        padding: 14px;
+        font-size: 1.1em;
+    }
+    .login-message, .form-links {
+        font-size: 0.9em;
+    }
+}
+/* ===========================================================================
+   Estilos para el mensaje de usuario logueado en el Header
+   =========================================================================== */
+.user-info-display {
+    /* Contenedor principal del mensaje "¡Hola, Nombre Apellido!" */
+    display: flex;
+    flex-direction: column; /* <--- CLAVE: Apila los elementos verticalmente */
+    align-items: flex-end; /* <--- CLAVE: Alinea los elementos a la derecha (si el contenedor es flex) */
+    justify-content: center; /* Centra el contenido verticalmente si hay espacio */
+    gap: 0; /* No necesitamos espacio entre elementos apilados aquí, el margen inferior lo dará */
+    color: var(--primary-blue);
+    font-family: var(--font-body);
+    font-size: 1.05em; /* Tamaño base */
+    font-weight: 500;
+    white-space: nowrap; /* Evita que el mensaje se rompa si es posible (en desktop) */
+    line-height: 1.2;
+    padding: 0;
+    height: auto; /* La altura se ajustará al contenido apilado */
+}
+
+.user-info-display .welcome-text {
+    /* Estilos para la parte "¡Hola," */
+    font-weight: 400;
+    color: var(--black); /* <--- CAMBIO DE COLOR: Texto más oscuro */
+    font-size: 1em;
+    line-height: 1;
+    margin-bottom: 2px; /* Pequeño espacio entre "¡Hola," y el nombre */
+}
+
+.user-info-display .user-full-name {
+    /* Estilos para el Nombre y Apellido */
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--primary-blue); /* <--- CAMBIO DE COLOR: Usamos el azul principal para el nombre */
+    text-transform: capitalize;
+    font-size: 1.3em;
+    line-height: 1;
+    margin-bottom: 5px; /* Espacio entre el nombre y el botón */
+}
+
+
+/* Estilos para el botón "Cerrar Sesión" */
+.btn-logout {
+    background-color: var(--accent-gold); /* Mantenemos el color de acento */
+    color: var(--white);
+    padding: 8px 18px; /* Un poco menos de padding para que sea más compacto */
+    border-radius: 5px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+    border: 2px solid var(--accent-gold);
+    text-decoration: none;
+    font-size: 0.85em; /* <--- AJUSTADO: Un poco más pequeño para el botón */
+    white-space: nowrap;
+    margin-left: 0; /* <--- CLAVE: Elimina el margen izquierdo para que se apile */
+    margin-top: 0; /* Aseguramos que no haya margen superior adicional */
+
+    /* Centrado interno del texto del botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto; /* Dejamos que la altura se ajuste al padding y fuente */
+    min-width: 120px; /* Asegura un ancho mínimo para que no se vea demasiado pequeño */
+}
+
+.btn-logout:hover {
+    background-color: #b38b58; /* Color un poco más oscuro que --accent-gold */
+    border-color: #b38b58;
+    color: var(--white);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+/* Media Query para ajustar en dispositivos móviles y tabletas */
+/* Aquí es donde los ajustes para la alineación y el apilamiento son importantes */
+@media (max-width: 992px) {
+    .header-auth {
+        flex-direction: column; /* Forzamos el apilamiento en pantallas más pequeñas */
+        align-items: flex-end; /* Alinea a la derecha para desktop y tablet */
+        width: auto;
+        gap: 0; /* Quitamos el gap del header-auth ya que user-info-display tendrá su propio margin-bottom */
+    }
+
+    .user-info-display {
+        font-size: 1em;
+        align-items: flex-end; /* Alinea el texto a la derecha */
+        margin-bottom: 10px; /* Espacio entre el texto y el botón en desktop/tablet */
+        white-space: nowrap; /* Intenta mantener el texto en una línea si es posible */
+    }
+    .user-info-display .user-full-name {
+        font-size: 1.2em;
+    }
+    .user-info-display .welcome-text {
+        font-size: 0.9em;
+    }
+    .btn-logout {
+        padding: 8px 15px;
+        font-size: 0.85em;
+        margin-left: 0; /* Asegura que el margen se resetee en móvil */
+        min-width: 100px; /* Ancho mínimo más pequeño para móvil */
+    }
+}
+
+@media (max-width: 768px) { /* Breakpoint principal para móviles pequeños */
+    .header-auth {
+        flex-direction: column; /* Apila los elementos en móvil */
+        align-items: center; /* Centra los elementos apilados en móvil */
+        text-align: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .user-info-display {
+        font-size: 0.9em;
+        align-items: center; /* Centra el texto apilado en móvil */
+        margin-bottom: 8px; /* Espacio entre el texto y el botón en móvil */
+        white-space: normal; /* Permite que el texto se rompa en varias líneas si es necesario */
+        text-align: center;
+    }
+    .user-info-display .welcome-text,
+    .user-info-display .user-full-name {
+        display: block; /* Asegura que cada parte esté en su propia línea */
+        width: 100%;
+        margin: 0;
+        padding: 2px 0;
+    }
+    .user-info-display .user-full-name {
+        font-size: 1.1em;
+    }
+    .btn-logout {
+        width: 100%;
+        margin-left: 0;
+        font-size: 0.9em;
+        padding: 12px;
+        height: auto;
+        min-width: unset; /* Elimina el ancho mínimo en móvil muy pequeño */
+    }
+}
+
+/* Si tu botón de menú hamburguesa está en el header-auth,
+   podrías necesitar ajustar su posición en móvil si se ve afectado por estos cambios */
+
+   /* Estilos para el select y el botón de acción en la tabla de solicitudes */
+.solicitudes-table form {
+    margin: 0;
+}
+
+.solicitudes-table select[name="new_estado"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+    margin-bottom: 5px;
+}
+
+.solicitudes-table button[type="submit"] {
+    width: 100%;
+    padding: 6px 10px;
+    background-color: #007bff; /* Color azul para el botón de actualizar */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.solicitudes-table button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para los mensajes de feedback */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+/* Ajustes para la barra de navegación y el área de usuario */
+
+/* En pantallas grandes, empuja el bloque de información de usuario a la derecha dentro del menú */
+@media (min-width: 769px) {
+    .main-nav ul li.user-info {
+        margin-left: auto;
+        /* Asegura que el contenido dentro de user-info se mantenga centrado verticalmente */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Si el menú de navegación general se ve desalineado, esta regla puede ayudar a que todo fluya mejor */
+    .main-nav ul {
+        flex-wrap: nowrap; /* Evita que los elementos del menú se envuelvan prematuramente */
+    }
+}
+/* Estilos para noticias.php */
+.noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.noticia-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-top: 5px solid var(--primary-blue);
+}
+.noticia-card h2 {
+    color: var(--primary-blue);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+.noticia-card .noticia-meta {
+    font-size: 0.9em;
+    color: var(--dark-gray);
+    margin-bottom: 15px;
+}
+.noticia-card .noticia-meta i {
+    margin-right: 5px;
+    color: var(--accent-gold);
+}
+.noticia-card .noticia-contenido {
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+.noticia-card .noticia-contenido img {
+    max-width: 100%; /* Asegura que las imágenes embebidas sean responsivas */
+    height: auto;
+    display: block;
+    margin: 15px auto; /* Centra las imágenes */
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos para botones pequeños en tablas (gestionar_noticias.php) */
+.btn.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    border-radius: 4px;
+}
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+.action-buttons-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center; /* Centra los botones en móvil */
+}
+
+/* Media Queries para Noticias */
+@media (max-width: 768px) {
+    .noticias-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 20px;
+    }
+    .noticia-card {
+        padding: 20px;
+    }
+    .noticia-card h2 {
+        font-size: 1.5em;
+    }
+}
