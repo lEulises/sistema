@@ -3117,3 +3117,13 @@ body.no-scroll {
 .admin-container h2 {
     text-align: center;
 }
+@media (min-width: 992px) {
+        .resources-display-grid {
+            /* Si ambas secciones están presentes, divídelas en 2 columnas */
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+        /* Ajustar el título para que no se vea afectado por el grid del padre si los estilos son muy genéricos */
+        .resources-grid-item .grade-level-title {
+            margin-top: 0; /* Reiniciar el margen superior si hay espacio arriba */
+        }
+    }

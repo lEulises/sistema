@@ -29,7 +29,7 @@ $body_class = 'admin-dashboard-page'; // Clase CSS específica para el dashboard
         <h2>Bienvenido al Panel de Administración, <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
         <p style="text-align: center; margin-bottom: 40px; color: var(--dark-gray);">Desde aquí puedes gestionar el contenido y las solicitudes del sitio web del colegio.</p>
 
-        <div class="dashboard-grid">
+      <div class="dashboard-grid">
             <a href="ver_solicitudes.php" class="dashboard-card">
                 <i class="fas fa-file-alt"></i>
                 <h3>Gestionar Solicitudes de Cupo</h3>
@@ -48,6 +48,11 @@ $body_class = 'admin-dashboard-page'; // Clase CSS específica para el dashboard
             <a href="register.php" class="dashboard-card"> <i class="fas fa-user-plus"></i>
                 <h3>Registrar Nuevo Usuario</h3>
                 <p>Crea cuentas de usuario para representantes o personal.</p>
+            </a>
+            <a href="manage_payments.php" class="dashboard-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Gestionar Pagos</h3>
+                <p>Verifica, aprueba o rechaza los comprobantes de pago de los representantes.</p>
             </a>
         </div>
     </div>
